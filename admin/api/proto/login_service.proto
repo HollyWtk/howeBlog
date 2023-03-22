@@ -1,0 +1,61 @@
+syntax = "proto3";
+package login.service.v1;
+option go_package = "user/pkg/service/login.service.v1";
+
+
+message LoginMessage {
+  string username = 1;
+  string password = 2;
+  string ip = 3;
+  string token = 4;
+}
+message LoginResponse{
+  UserMessage user = 1;
+  TokenMessage token = 2;
+}
+
+message UserMessage{
+  int64 id  = 1;
+
+  string username  = 2;
+
+  string password  = 3;
+
+  string nickname  = 4;
+
+  string avatar  = 5;
+
+  string email  = 6;
+
+  string createTime  = 7;
+
+  string updateTime  = 8;
+
+  string role  = 9;
+
+}
+message UserMessageList {
+  repeated UserMessage list = 1;
+}
+
+message TokenMessage{
+  string accessToken = 1;
+  string refreshToken = 2;
+  string tokenType = 3;
+  int64 accessTokenExp = 4;
+}
+
+message UserQueryMessage{
+  int64 memId = 1;
+  repeated int64 mIds = 2;
+}
+
+service LoginService {
+//  rpc GetCaptcha(CaptchaMessage) returns (CaptchaResponse) {}
+//  rpc Register(RegisterMessage) returns (RegisterResponse) {}
+  rpc Login(LoginMessage) returns (LoginResponse) {}
+  rpc TokenVerify(LoginMessage) returns (LoginResponse) {}
+//  rpc MyOrgList(UserMessage) returns (OrgListResponse) {}
+  rpc FindMemInfoById(UserQueryMessage) returns (UserMessage) {}
+  rpc FindMemInfoByIds(UserQueryMessage) returns (UserMessageList) {}
+}
